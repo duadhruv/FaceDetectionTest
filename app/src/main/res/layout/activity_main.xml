@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <io.fotoapparat.facedetector.view.CameraOverlayLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Adjust parameters as you like. But cameraView has to be inside CameraOverlayLayout -->
+        <io.fotoapparat.view.CameraView
+            android:id="@+id/cameraView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!-- This view will display detected faces -->
+        <io.fotoapparat.facedetector.view.RectanglesView
+            android:id="@+id/rectanglesView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:rectanglesColor="@color/white"
+            app:rectanglesStrokeWidth="2dp"/>
+
+    </io.fotoapparat.facedetector.view.CameraOverlayLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
