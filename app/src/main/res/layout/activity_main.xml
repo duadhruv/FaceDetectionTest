@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,17 +13,101 @@
         <!-- Adjust parameters as you like. But cameraView has to be inside CameraOverlayLayout -->
         <io.fotoapparat.view.CameraView
             android:id="@+id/cameraView"
+            android:background="@color/white"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+
+            android:layout_height="match_parent" >
+
+
+            <com.hex.facedetectiontest.FaceOverlay
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                />
+
+            <io.fotoapparat.facedetector.view.RectanglesView
+                android:id="@+id/rectanglesView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:rectanglesColor="#8BC34A"
+                app:rectanglesStrokeWidth="2dp" />
+
+
+
+        </io.fotoapparat.view.CameraView>
+
+
 
         <!-- This view will display detected faces -->
-        <io.fotoapparat.facedetector.view.RectanglesView
-            android:id="@+id/rectanglesView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:rectanglesColor="@color/white"
-            app:rectanglesStrokeWidth="2dp"/>
 
     </io.fotoapparat.facedetector.view.CameraOverlayLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+<!--<com.hex.facedetectiontest.ScannerOverlay-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:background="#8B000000"-->
+<!--    app:line_width="0"-->
+<!--    app:line_color="#00F1FADA"-->
+<!--    app:square_width="250"-->
+<!--    app:square_height="400"-->
+<!--    />-->
+<!--    <include-->
+<!--        layout="@layout/overlay"-->
+
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_width="match_parent"-->
+<!--        />-->
+    <TextView
+        android:id="@+id/co"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:padding="10dp"
+        android:text="00"
+        android:inputType="textLongMessage"
+        android:textAlignment="center"
+        android:textColor="#fff"
+        android:textSize="25dp"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="10px"
+        android:layout_margin="10dp"
+        android:text="Capture"
+        android:id="@+id/cap"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000"
+        android:text="Can't Detect Face?"
+        android:padding="10dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/face_not_detecting"
+        />
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="15dp"
+        app:lottie_rawRes="@raw/captured"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:visibility="invisible"
+        android:id="@+id/captured"
+        />
+
+
+
+
+
+
+
+
+
+</RelativeLayout>
