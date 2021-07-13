@@ -3,6 +3,7 @@ package com.hex.facedetectiontest;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
@@ -60,10 +61,6 @@ public class FaceOverlay extends View {
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
 
-        // paint = new Paint();
-        //paint.setColor(Color.BLACK);
-        //.setAlpha(95);
-        //canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), paint);
         canvasHeight = canvas.getHeight();
         canvasWidth = canvas.getWidth();
         top_space = 0.1f*canvas.getHeight();
@@ -76,8 +73,6 @@ public class FaceOverlay extends View {
         Paint eraser = new Paint();
         eraser.setAntiAlias(true);
         eraser.setColor(Color.TRANSPARENT);
-       // eraser.setMaskFilter(null);
-//        eraser.setAlpha(0)  ;
 
         eraser.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
 
@@ -103,6 +98,20 @@ public class FaceOverlay extends View {
         final Path path = new Path();
         path.addRoundRect(rect, corners, Path.Direction.CW);
         canvas.drawPath(path, eraser);
+
+        //Drawing stroke
+        Paint mPaint = new Paint();
+        Path mPath=new Path();
+
+        mPath.addRoundRect(rect,corners,Path.Direction.CW);
+
+        mPaint.setColor(Color.WHITE);
+        mPaint.setStrokeWidth(10);
+        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setPathEffect(new DashPathEffect(new float[]{15, 15, 15, 15}, 0));
+        canvas.drawPath(mPath,mPaint);
+
+
 
         float padding = widthRadius*0.2f;
         omnx = left - padding;

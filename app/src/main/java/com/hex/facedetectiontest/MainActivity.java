@@ -16,6 +16,7 @@ import io.fotoapparat.selector.LensPositionSelectorsKt;
 import io.fotoapparat.view.CameraView;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.ImageFormat;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -172,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
     void onFaceScanned(){
         captured.setVisibility(View.VISIBLE);
         captured.loop(false);
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
