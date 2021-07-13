@@ -106,7 +106,7 @@ public class FaceOverlay extends View {
         mPath.addRoundRect(rect,corners,Path.Direction.CW);
 
         mPaint.setColor(Color.WHITE);
-        mPaint.setStrokeWidth(10);
+        mPaint.setStrokeWidth(8);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setPathEffect(new DashPathEffect(new float[]{15, 15, 15, 15}, 0));
         canvas.drawPath(mPath,mPaint);
