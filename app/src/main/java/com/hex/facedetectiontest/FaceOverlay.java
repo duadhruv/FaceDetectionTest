@@ -16,9 +16,11 @@ import android.view.ViewGroup;
 
 public class FaceOverlay extends View {
     public float top_space;
-    public static float canvasHeight,canvasWidth;
-    public static float omx, omnx,omy,omny;
-    public static float topvalue=-1.0f;
+    public float canvasHeight,canvasWidth;
+    public float omx, omnx,omy,omny;
+    public float topvalue=-1.0f;
+    Canvas cvs;
+    public float marginBotm=0.0f;
     public FaceOverlay(Context context) {
         super(context);
         initView();
@@ -57,6 +59,14 @@ public class FaceOverlay extends View {
         setMeasuredDimension(widthMeasureSpec, heightMeasureSpec);
     }
 
+    boolean success = false;
+    public void success()
+    {
+        success = true;
+        invalidate();
+
+    }
+
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
@@ -64,11 +74,14 @@ public class FaceOverlay extends View {
         canvasHeight = canvas.getHeight();
         canvasWidth = canvas.getWidth();
         top_space = 0.1f*canvas.getHeight();
+        cvs=canvas;
+
 
 
         float heightRad,widthRadius;
         heightRad = 0.3f*canvasWidth;
         widthRadius = 0.2f*canvasWidth;
+        marginBotm = 0.4f*(heightRad*2);
 
         Paint eraser = new Paint();
         eraser.setAntiAlias(true);
@@ -105,11 +118,22 @@ public class FaceOverlay extends View {
 
         mPath.addRoundRect(rect,corners,Path.Direction.CW);
 
-        mPaint.setColor(Color.WHITE);
-        mPaint.setStrokeWidth(8);
-        mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setPathEffect(new DashPathEffect(new float[]{15, 15, 15, 15}, 0));
-        canvas.drawPath(mPath,mPaint);
+        if(success){
+            mPaint.setColor(Color.GREEN);
+            mPaint.setStrokeWidth(8);
+            mPaint.setStyle(Paint.Style.STROKE);
+            mPaint.setPathEffect(new DashPathEffect(new float[]{0, 0}, 0));
+            canvas.drawPath(mPath,mPaint);
+        }
+        else
+        {
+            mPaint.setColor(Color.WHITE);
+            mPaint.setStrokeWidth(8);
+            mPaint.setStyle(Paint.Style.STROKE);
+            mPaint.setPathEffect(new DashPathEffect(new float[]{45, 30}, 0));
+            canvas.drawPath(mPath,mPaint);
+        }
+
 
 
 

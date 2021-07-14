@@ -29,6 +29,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
     LottieAnimationView captured;
     String y="";
     float omx, omnx,omy,omny,fmx,fmny,fmy,fmnx;
+    FaceOverlay faceOverlay;
+    TextView message;
 
 
 
@@ -60,16 +63,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
+
         rectanglesView = findViewById(R.id.rectanglesView);
         CameraView cameraView = findViewById(R.id.cameraView);
 
         captured = findViewById(R.id.captured);
+        faceOverlay = findViewById(R.id.faceoverlay);
 
 
         setHeightMargin();
 
         faceDetector = FaceDetector.create(this);
+        message = findViewById(R.id.message);
 
         CustomFrameProcessor processor = new CustomFrameProcessor();
 
@@ -90,12 +100,14 @@ public class MainActivity extends AppCompatActivity {
 
             List<Rectangle> faces = faceDetector.detectFaces(frame.getImage(), frame.getSize().width, frame.getSize().height, frame.getRotation());
 
-            omnx = FaceOverlay.omnx;
-            omx = FaceOverlay.omx;
-            omy = FaceOverlay.omy;
-            omny = FaceOverlay.omny;
+            omnx = faceOverlay.omnx;
+            omx = faceOverlay.omx;
+            omy = faceOverlay.omy;
+            omny = faceOverlay.omny;
             Rectangle rectangle = new Rectangle(omnx/rectanglesView.getWidth(),omny/rectanglesView.getHeight(),(omx-omnx)/rectanglesView.getWidth(),(omy-omny)/rectanglesView.getHeight());
             faces.add(rectangle);
+
+
 
             if(!(faces.size() ==0)){
                 for(int i = 0;i<faces.size();i++){
@@ -135,21 +147,13 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             }
-
-//            runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    rectanglesView.setRectangles(faces);
-//                }
-//            });
-
         }
     }
     void setHeightMargin(){
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while (FaceOverlay.topvalue==-1){
+                while (faceOverlay.topvalue==-1){
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
@@ -162,8 +166,15 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams)captured.getLayoutParams();
-                        params.setMargins(params.leftMargin, (int) (FaceOverlay.topvalue+(params.height/2)),params.rightMargin,params.bottomMargin);
+                        params.setMargins(params.leftMargin, (int) (faceOverlay.topvalue+(params.height/2)),params.rightMargin,params.bottomMargin);
                         captured.setLayoutParams(params);
+                        ConstraintLayout.LayoutParams p = (ConstraintLayout.LayoutParams)message.getLayoutParams();
+                        p.setMargins(params.leftMargin, (int) faceOverlay.omy+(int)faceOverlay.marginBotm,params.rightMargin,params.bottomMargin);
+                        message.setLayoutParams(p);
+
+
+
+
                     }
                 });
             }
@@ -173,11 +184,13 @@ public class MainActivity extends AppCompatActivity {
     void onFaceScanned(){
         captured.setVisibility(View.VISIBLE);
         captured.loop(false);
+        faceOverlay.success();
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                finish();
+
+                //finish();
             }
         },1000);
 
